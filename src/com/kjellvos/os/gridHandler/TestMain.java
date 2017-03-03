@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 
 /**
  * Created by kjell on 27-2-2017.
+ * TODO implement mininum size? Maybe
  */
 public class TestMain extends Application{
     Label label;

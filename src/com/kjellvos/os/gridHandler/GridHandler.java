@@ -21,6 +21,11 @@ public class GridHandler {
 
     private double width = 0D, height = 0D;
 
+    /**
+     * Sets up a new pane
+     * creates the array list containing the UI nodes in the grid
+     * and sets width and height
+     */
     public GridHandler(){
         Pane pane = new Pane();
         itemsInGrid = new ArrayList<GridItem>();
@@ -28,6 +33,10 @@ public class GridHandler {
         pane.setPrefHeight(600D);
     }
 
+    /**
+     * Loops through the gird array list to find the max X and max Y of the grid.
+     * @return Vec2d with max x of grid and max y of grid.
+     */
     public Vec2d getMaxXAndMaxYFromItemsInGrid(){
         int maxY = 0, maxX = 0;
         itemsInGrid.sort(new GridSorter());
@@ -43,6 +52,10 @@ public class GridHandler {
         return new Vec2d(maxX, maxY);
     }
 
+    /**
+     * Returns the scene as a grid.
+     * @return a Scene containing of all grid items of this particular grid.
+     */
     public Scene getGridAsScene(){
         Pane pane = new Pane();
         scene = new Scene(pane);
@@ -60,6 +73,9 @@ public class GridHandler {
         return scene;
     }
 
+    /**
+     * Loop to recalculate all the positions and sizes of the UI Nodes
+     */
     public void calculateAllPositionAndSize(){
         itemsInGrid.sort(new GridSorter());
         Vec2d maxXY = getMaxXAndMaxYFromItemsInGrid();
@@ -71,7 +87,18 @@ public class GridHandler {
         }
     }
 
-    public void calculatePositionAndSize(Node UINode, int xPos, int maxX, int yPos, int maxY, double padding, int rowSpan, int colSpan) {
+    /**
+     * Calculates the position and size of a grid item.
+     * @param UINode The UI Node to calculate the position and size of
+     * @param xPos The x position on the grid it takes
+     * @param maxX The max amount of grid items on the X side of the grid
+     * @param yPos The y position on the grid it takes
+     * @param maxY The max amount of grid items on the Y side of the grid
+     * @param padding The amount of padding between the grid items
+     * @param colSpan The column span of the item(how 'big' it is, ie if you put in 2 it takes 2 positions of X making it twice as large horizontally on the grid.)
+     * @param rowSpan The row span of the item(how 'big' it is ie if you put in 2 it takes 2 positions of Y making it twice as large vertically on the grid.)
+     */
+    public void calculatePositionAndSize(Node UINode, int xPos, int maxX, int yPos, int maxY, double padding, int colSpan, int rowSpan) {
         Class tempClass = UINode.getClass();
         Font font = new Font("Verdana", height/40);
 
@@ -188,11 +215,25 @@ public class GridHandler {
         }
     }
 
+    /**
+     * Adds a UI node to the grid. Just a callback to the function with row span and column span but with both set to 1
+     * @param xPos The x position on the grid it takes
+     * @param yPos The Y position on the grid it takes
+     * @param UINode The UI Node to add to the grid
+     */
     public void add(int xPos, int yPos, Node UINode) {
         add(xPos, yPos, UINode, 1, 1);
     }
 
-    public void add(int xPos, int yPos, Node UINode, int rowSpan, int colSpan){
+    /**
+     * Adds a UI node to the grid, with the specified parameters.
+     * @param xPos The x position on the grid it takes
+     * @param yPos The Y position on the grid it takes
+     * @param UINode The UI Node to add to the grid
+     * @param colSpan The row span of the item(how 'big' it is ie if you put in 2 it takes 2 positions of Y making it twice as large vertically on the grid.)
+     * @param rowSpan The column span of the item(how 'big' it is, ie if you put in 2 it takes 2 positions of X making it twice as large horizontally on the grid.)
+     */
+    public void add(int xPos, int yPos, Node UINode, int colSpan, int rowSpan){
         itemsInGrid.sort(new GridSorter());
         Vec2d maxXY = getMaxXAndMaxYFromItemsInGrid();
         if (((int) maxXY.x) > xPos+colSpan && ((int) maxXY.y) > yPos+rowSpan) {
@@ -208,6 +249,9 @@ public class GridHandler {
         }
     }
 
+    /**
+     * Sets up the listeners of the size of the screen so that the grid handler knows when to resize the items
+     */
     private void setupWidthAndHeightChangeListeners() {
         scene.widthProperty().addListener((observable, oldValue, newValue) -> {
             width = newValue.doubleValue();
