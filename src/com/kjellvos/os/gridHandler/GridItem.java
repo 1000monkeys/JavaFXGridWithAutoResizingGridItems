@@ -7,6 +7,7 @@ import javafx.scene.Node;
  */
 public class GridItem{
     private int xPos, yPos, colSpan, rowSpan;
+    private boolean empty;
     private Node UINode;
 
     /**
@@ -15,12 +16,14 @@ public class GridItem{
      * @param yPos The y position on the grid it takes
      * @param colSpan The column span of the item(how 'big' it is, ie if you put in 2 it takes 2 positions of X making it twice as large horizontally on the grid.)
      * @param rowSpan The row span of the item(how 'big' it is ie if you put in 2 it takes 2 positions of Y making it twice as large vertically on the grid.)
+     * @param empty whether this grid item contains an UINode
      */
-    public GridItem(int xPos, int yPos, int colSpan, int rowSpan){
+    public GridItem(int xPos, int yPos, int colSpan, int rowSpan, boolean empty){
         this.xPos = xPos;
         this.yPos = yPos;
         this.colSpan = colSpan;
         this.rowSpan = rowSpan;
+        this.empty = empty;
     }
 
     /**
@@ -71,5 +74,13 @@ public class GridItem{
      */
     public int getRowSpan() {
         return rowSpan;
+    }
+
+    /**
+     * Returns a boolean true/false depending on whether this grid item has a UI node or not
+     * @return Boolean true/false depending on whether this grid item has a UI node or not
+     */
+    public boolean getEmpty() {
+        return empty;
     }
 }

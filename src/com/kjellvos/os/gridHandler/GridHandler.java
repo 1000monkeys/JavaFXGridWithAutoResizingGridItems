@@ -25,12 +25,14 @@ public class GridHandler {
      * Sets up a new pane
      * creates the array list containing the UI nodes in the grid
      * and sets width and height
+     * @param width the width of the pane that the grid handler creates
+     * @param height the height of the pane that the grid handler creates
      */
-    public GridHandler(){
+    public GridHandler(double width, double height){
         Pane pane = new Pane();
         itemsInGrid = new ArrayList<GridItem>();
-        pane.setPrefWidth(800D);
-        pane.setPrefHeight(600D);
+        pane.setPrefWidth(width);
+        pane.setPrefHeight(height);
     }
 
     /**
@@ -220,33 +222,52 @@ public class GridHandler {
      * @param xPos The x position on the grid it takes
      * @param yPos The Y position on the grid it takes
      * @param UINode The UI Node to add to the grid
+     * @param overwriteOldItem Whether to overwrite the item in the grid position if one is already there
      */
-    public void add(int xPos, int yPos, Node UINode) {
-        add(xPos, yPos, UINode, 1, 1);
+    public void add(int xPos, int yPos, Node UINode, boolean overwriteOldItem) {
+        add(xPos, yPos, UINode, 1, 1, overwriteOldItem);
+    }
+
+    /**
+     * Adds a UI node to the grid.
+     * @param xPos The x position on the grid it takes
+     * @param yPos The Y position on the grid it takes
+     * @param UINode The UI Node to add to the grid
+     * @param colSpan The row span of the item(how 'big' it is ie if you put in 2 it takes 2 positions of Y making it twice as large vertically on the grid.)
+     * @param rowSpan The column span of the item(how 'big' it is, ie if you put in 2 it takes 2 positions of X making it twice as large horizontally on the grid.
+     * @param overwriteOldItem Whether to overwrite the item in the grid position if one is already there
+     */
+    public void add(int xPos, int yPos, Node UINode, int colSpan, int rowSpan, boolean overwriteOldItem){
+        addNode(xPos, yPos, UINode, colSpan, rowSpan, overwriteOldItem);
     }
 
     /**
      * Adds a UI node to the grid, with the specified parameters.
      * @param xPos The x position on the grid it takes
      * @param yPos The Y position on the grid it takes
-     * @param UINode The UI Node to add to the grid
      * @param colSpan The row span of the item(how 'big' it is ie if you put in 2 it takes 2 positions of Y making it twice as large vertically on the grid.)
      * @param rowSpan The column span of the item(how 'big' it is, ie if you put in 2 it takes 2 positions of X making it twice as large horizontally on the grid.)
+     * @param UINode The UI Node to add to the grid
      */
-    public void add(int xPos, int yPos, Node UINode, int colSpan, int rowSpan){
+    private void addNode(int xPos, int yPos, Node UINode, int colSpan, int rowSpan, boolean overwriteOldItem){
         itemsInGrid.sort(new GridSorter());
         Vec2d maxXY = getMaxXAndMaxYFromItemsInGrid();
         if (((int) maxXY.x) > xPos+colSpan && ((int) maxXY.y) > yPos+rowSpan) {
-            itemsInGrid.remove(xPos + (yPos*maxXY.x));
-            itemsInGrid.add(new GridItem(xPos, yPos, colSpan, rowSpan).setUINode(UINode));
+            if (itemsInGrid.get(xPos + (yPos*((int) maxXY.x))).getEmpty()){
+                itemsInGrid.add(new GridItem(xPos, yPos, colSpan, rowSpan, false).setUINode(UINode));
+            }
+        }else if (overwriteOldItem){
+            itemsInGrid.remove(xPos + (yPos*((int) maxXY.x)));
+            itemsInGrid.add(new GridItem(xPos, yPos, colSpan, rowSpan, false).setUINode(UINode));
         }else{
-            for (int i = 0; i < yPos; i++) {
-                for (int i2 = 0; i2 < xPos; i2++){
-                    itemsInGrid.add(new GridItem(i2, i, 1, 1).setUINode(null));
+            for (int y = 0; y < yPos; y++) {
+                for (int x = 0; x < xPos; x++){
+                    itemsInGrid.add(new GridItem(x, y, 1, 1, true).setUINode(null));
                 }
             }
-            itemsInGrid.add(new GridItem(xPos, yPos, colSpan, rowSpan).setUINode(UINode));
+            itemsInGrid.add(new GridItem(xPos, yPos, colSpan, rowSpan, false).setUINode(UINode));
         }
+        itemsInGrid.sort(new GridSorter());
     }
 
     /**

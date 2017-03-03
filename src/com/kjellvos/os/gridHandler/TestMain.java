@@ -13,7 +13,7 @@ import javafx.stage.Stage;
  */
 public class TestMain extends Application{
     Label label;
-    Button button;
+    Button button, button2, button3;
     RadioButton radioButton;
     ToggleButton toggleButton;
     CheckBox checkBox;
@@ -39,6 +39,8 @@ public class TestMain extends Application{
     public void start(Stage primaryStage) throws Exception {
         label = new Label("test1");
         button = new Button("test2");
+        button2 = new Button("test21");
+        button3 = new Button("test22");
         radioButton = new RadioButton("test3");
         toggleButton = new RadioButton("test4");
         checkBox = new CheckBox("test5");
@@ -64,41 +66,43 @@ public class TestMain extends Application{
         colorPicker = new ColorPicker();    //todo
         pagination = new Pagination();      //todo
 
-        GridHandler gridHandler = new GridHandler();
+        GridHandler gridHandler = new GridHandler(800D, 600D);
 
-        gridHandler.add(0, 0, label);
-        gridHandler.add(0, 1, button);
-        gridHandler.add(0, 2, radioButton);
-        gridHandler.add(0, 3, toggleButton);
-        gridHandler.add(0, 4, checkBox);
+        gridHandler.add(0, 0, label, false);
+        gridHandler.add(0, 1, button, false);
+        gridHandler.add(0, 2, radioButton, false);
+        gridHandler.add(0, 3, toggleButton, false);
+        gridHandler.add(0, 4, checkBox, false);
 
-        gridHandler.add(1, 0, choiceBox);
-        gridHandler.add(1, 1, textField);
-        gridHandler.add(1, 2, scrollPane);
-        gridHandler.add(1, 3, listView);
-        gridHandler.add(1, 4, tableView);
+        gridHandler.add(1, 0, choiceBox, false);
+        gridHandler.add(1, 1, textField, false);
+        gridHandler.add(1, 2, scrollPane, false);
+        gridHandler.add(1, 3, listView, false);
+        gridHandler.add(1, 4, tableView, false);
 
-        gridHandler.add(2, 0, treeView);
-        gridHandler.add(2, 1, comboBox);
-        gridHandler.add(2, 2, separator);
-        gridHandler.add(2, 3, slider);
-        gridHandler.add(2, 4, progressBar);
+        gridHandler.add(2, 0, treeView, false);
+        gridHandler.add(2, 1, comboBox, false);
+        gridHandler.add(2, 2, separator, false);
+        gridHandler.add(2, 3, slider, false);
+        gridHandler.add(2, 4, progressBar, false);
 
-        gridHandler.add(3, 0, progressIndicator);
-        gridHandler.add(3, 1, hyperlink);
-        gridHandler.add(3, 2, htmlEditor);
-        gridHandler.add(3, 3, titledPane);
-        gridHandler.add(3, 4, passwordField);
+        gridHandler.add(3, 0, progressIndicator, false);
+        gridHandler.add(3, 1, hyperlink, false);
+        gridHandler.add(3, 2, htmlEditor, false);
+        gridHandler.add(3, 3, titledPane, false);
+        gridHandler.add(3, 4, passwordField, false);
 
-        gridHandler.add(4,0, colorPicker);
-        gridHandler.add(4,1, pagination);
+        gridHandler.add(4,0, colorPicker, false);
+        gridHandler.add(4,1, pagination, false);
+
+        gridHandler.add(0, 0, button2, false);
+        gridHandler.add(2, 3, button3, true);
 
         primaryStage.setTitle("Item Explorer For Kassa System");
-        primaryStage.setMinWidth(800);
         primaryStage.setWidth(800);
-        primaryStage.setMinHeight(600);
         primaryStage.setHeight(600);
         primaryStage.setScene(gridHandler.getGridAsScene());
+        primaryStage.sizeToScene();
         primaryStage.show();
     }
 
