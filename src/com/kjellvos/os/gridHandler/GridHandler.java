@@ -84,7 +84,7 @@ public class GridHandler {
 
         for (int i = 0; i < itemsInGrid.size(); i++){
             if (itemsInGrid.get(i).getUINode() != null) {
-                calculatePositionAndSize(itemsInGrid.get(i).getUINode(), itemsInGrid.get(i).getxPos(), ((int) maxXY.x), itemsInGrid.get(i).getyPos(), ((int) maxXY.y), 10, itemsInGrid.get(i).getRowSpan(), itemsInGrid.get(i).getColSpan());
+                calculatePositionAndSize(itemsInGrid.get(i).getUINode(), itemsInGrid.get(i).getxPos(), ((int) maxXY.x), itemsInGrid.get(i).getyPos(), ((int) maxXY.y), 10, itemsInGrid.get(i).getColSpan(), itemsInGrid.get(i).getRowSpan());
             }
         }
     }
