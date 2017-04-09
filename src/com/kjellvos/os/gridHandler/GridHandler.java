@@ -214,6 +214,10 @@ public class GridHandler {
             ListView listView = (ListView) UINode;
             listView.setPrefSize(width, height);
             listView.relocate(relocateX, relocateY);
+        }else if (tempClass == Accordion.class){
+            Accordion accordion = (Accordion) UINode;
+            accordion.setPrefSize(width, height);
+            accordion.relocate(relocateX, relocateY);
         }
     }
 
