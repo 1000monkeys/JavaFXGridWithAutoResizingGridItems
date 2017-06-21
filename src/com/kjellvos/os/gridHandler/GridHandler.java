@@ -112,7 +112,10 @@ public class GridHandler {
         double height = (((height2-padding)/maxY)*rowSpan)-padding;
         double leftRightPadding, topBottomPadding;
         if (tempClass == Label.class) {
+            Label label = (Label) UINode;
 
+            label.setPrefSize(width, height);
+            label.relocate(relocateX, relocateY);
         }else if (tempClass == Button.class){
             Button button = (Button) UINode;
             Text buttonText = new Text(button.getText().toString());
