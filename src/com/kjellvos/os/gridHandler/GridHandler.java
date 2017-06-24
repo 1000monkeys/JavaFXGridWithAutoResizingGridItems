@@ -20,6 +20,8 @@ public class GridHandler {
     private ArrayList<GridItem> itemsInGrid;
 
     private double width = 0D, height = 0D;
+    private boolean menuBar = false;
+    private double heightMenuBar = 0.0D;
 
     /**
      * Sets up a new pane
@@ -28,11 +30,8 @@ public class GridHandler {
      * @param width the width of the pane that the grid handler creates
      * @param height the height of the pane that the grid handler creates
      */
-    public GridHandler(double width, double height){
-        Pane pane = new Pane();
+    public GridHandler(){
         itemsInGrid = new ArrayList<GridItem>();
-        pane.setPrefWidth(width);
-        pane.setPrefHeight(height);
     }
 
     /**
@@ -76,6 +75,16 @@ public class GridHandler {
     }
 
     /**
+     * TODO
+     * @param menuBar
+     * @param heightMenuBar
+     */
+    public void menuBar(boolean menuBar, double heightMenuBar){
+        this.menuBar = menuBar;
+        this.heightMenuBar = heightMenuBar;
+    }
+
+    /**
      * Loop to recalculate all the positions and sizes of the UI Nodes
      */
     public void calculateAllPositionAndSize(){
@@ -103,17 +112,27 @@ public class GridHandler {
     public void calculatePositionAndSize(Node UINode, int xPos, int maxX, int yPos, int maxY, double padding, int colSpan, int rowSpan) {
         Class tempClass = UINode.getClass();
         Font font = new Font("Verdana", height/40);
-
-        double height2 = height - padding;
+        double height2;
+        if (menuBar) {
+            height2 = height - padding - heightMenuBar;
+        }else{
+            height2 = height - padding;
+        }
         double width2 = width - padding;
         double relocateX = padding + (width2/maxX*xPos);
-        double relocateY = padding + (height2/maxY*yPos);
-        double width = (((width2-padding)/maxX)*colSpan)-padding;
-        double height = (((height2-padding)/maxY)*rowSpan)-padding;
+        double relocateY;
+        if (menuBar){
+            relocateY = padding + (height2/maxY*yPos) + heightMenuBar;
+        }else{
+            relocateY = padding + (height2/maxY*yPos);
+        }
+        double width = (((width2-padding)/maxX)*colSpan);
+        double height = (((height2-padding)/maxY)*rowSpan);
         double leftRightPadding, topBottomPadding;
         if (tempClass == Label.class) {
             Label label = (Label) UINode;
 
+            label.setFont(font);
             label.setPrefSize(width, height);
             label.relocate(relocateX, relocateY);
         }else if (tempClass == Button.class){
